@@ -13,7 +13,7 @@ const apiCategory = {
   },  
 
   getOne: (id: number) => {
-    return axiosInstance.get<Category>(`/categories/${id}`);
+    return axiosInstance.get<Category>(`/admin/categories/${id}`);
   },
 
   getCategoryPagination: (page: number) => {
@@ -21,19 +21,18 @@ const apiCategory = {
   },
 
   createCategory: (category: Omit<Category, 'id'>) => {
-    return axiosInstance.post<Category>("/categories", category);
+    return axiosInstance.post<Category>("/admin/categories", category);
   },
 
   getCategoryById: (id: number) => {
-    return axiosInstance.get<Category>(`/categories/${id}`);
+    return axiosInstance.get<Category>(`/admin/categories/${id}`);
   },
 
   editCategory: (id: number, category: Partial<Category>) => {
-    return axiosInstance.put<Category>(`/categories/${id}`, category);
+    return axiosInstance.put<Category>(`/admin/categories/${id}`, category);
   },
-
   deleteCategoryById: (id: number) => {
-    return axiosInstance.delete<void>(`/categories/${id}`);
+    return axiosInstance.delete<void>(`/admin/categories/${id}`);
   },
 };
 

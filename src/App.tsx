@@ -23,6 +23,8 @@ import CreateProduct from './pages/Dashboard/Create/CreateProduct';
 import User from './pages/Dashboard/User';
 import Checkout from './pages/Dashboard/Checkout';
 import Test from './pages/Dashboard/test';
+import EditCategories from './pages/Dashboard/Edit/EditCategories';
+import CreateCategory from './pages/Dashboard/Create/CreateCategory';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -93,6 +95,7 @@ function App() {
                   <Route path="category" element={<Category />} />
                   <Route path="evaluate" element={<Evaluate />} />
                   <Route path="createproduct" element={<CreateProduct />} />
+                  <Route path="createcategory" element={<CreateCategory />} />
                   <Route path="editproduct/:id" element={<EditProduct />} />
                   <Route path="profile" element={<Profile />} />
                   <Route path="forms/form-elements" element={<FormElements />} />
@@ -103,6 +106,7 @@ function App() {
                   <Route path="user" element={<User />} />
                   <Route path="checkout" element={<Checkout />} />
                   <Route path="test" element={<Test/>} />
+                  <Route path="editcategories/:id" element={<EditCategories/>} />
                 </Routes>
               </DefaultLayout>
             // </ProtectedRoute>

@@ -1,62 +1,58 @@
+import React, { useState } from 'react';
+import apiCategory from '../../../api/apiCategory';
+
 function CreateCategory() {
+  const [categoryName, setCategoryName] = useState('');
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      await apiCategory.createCategory({ name: categoryName });
+      // Handle successful creation (e.g., show success message, redirect)
+      console.log('Category created successfully');
+      setCategoryName(''); // Clear the input after successful creation
+    } catch (error) {
+      console.error('Error creating category:', error);
+      // Handle error (e.g., show error message)
+    }
+  };
+
   return (
-   <>
-    <div className="rounded-lg border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
-      <h4 className="mb-6 text-xl font-semibold text-black dark:text-white">
-        Create New Category
-      </h4>
-      <form>
-        <div className="mb-4.5">
-          <label className="mb-2.5 block text-black dark:text-white">
-            Category Name
+    <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-xl">
+      <h1 className="text-2xl font-bold text-gray-800 mb-6">Tạo Danh Mục Mới</h1>
+      <form onSubmit={handleSubmit}>
+        <div className="mb-4">
+          <label htmlFor="categoryName" className="block text-sm font-medium text-gray-700 mb-2">
+            Tên Danh Mục
           </label>
           <input
+            id="categoryName"
             type="text"
-            placeholder="Enter category name"
-            className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+            value={categoryName}
+            onChange={(e) => setCategoryName(e.target.value)}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            placeholder="Nhập tên danh mục"
+            required
           />
         </div>
-
-        <div className="mb-4.5">
-          <label className="mb-2.5 block text-black dark:text-white">
-            Parent Category
-          </label>
-          <select className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary">
-            <option value="">Select parent category (optional)</option>
-            <option value="1">Category 1</option>
-            <option value="2">Category 2</option>
-            <option value="3">Category 3</option>
-          </select>
+        <div className="flex items-center justify-between">
+          <button 
+            type="button"
+            onClick={() => window.history.back()}
+            className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+          >
+            Hủy
+          </button>
+          <button 
+            type="submit"
+            className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+          >
+            Tạo Danh Mục
+          </button>
         </div>
-
-        <div className="mb-4.5">
-          <label className="mb-2.5 block text-black dark:text-white">
-            Description
-          </label>
-          <textarea
-            rows={4}
-            placeholder="Type category description"
-            className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-          ></textarea>
-        </div>
-
-        <div className="mb-4.5">
-          <label className="mb-2.5 block text-black dark:text-white">
-            Category Image
-          </label>
-          <input
-            type="file"
-            className="w-full cursor-pointer rounded-lg border-[1.5px] border-stroke bg-transparent font-medium outline-none transition file:mr-5 file:border-collapse file:cursor-pointer file:border-0 file:border-r file:border-solid file:border-stroke file:bg-whiter file:py-3 file:px-5 file:hover:bg-primary file:hover:bg-opacity-10 focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:file:border-form-strokedark dark:file:bg-white/30 dark:file:text-white dark:focus:border-primary"
-          />
-        </div>
-
-        <button className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray mb-8">
-          Create Category
-        </button>
       </form>
     </div>
-   </>
-  )
+  );
 }
 
-export default CreateCategory
+export default CreateCategory;

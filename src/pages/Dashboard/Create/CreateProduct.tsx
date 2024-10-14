@@ -329,19 +329,19 @@ function CreateProduct() {
             Mô Tả
           </label>
           <div className="relative">
-            <textarea
+            <input
+              type="text"
               name="description"
               value={product.description}
               onChange={handleInputChange}
               placeholder="Nhập mô tả sản phẩm"
-              rows={4}
               className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary pr-10"
-            ></textarea>
+            />
             {product.description && (
               <button
                 type="button"
                 onClick={() => handleClearInput('description')}
-                className="absolute right-3 top-3 text-gray-500 hover:text-gray-700"
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
               >
                 ✕
               </button>
@@ -356,7 +356,7 @@ function CreateProduct() {
           <div className="relative">
             <textarea
               name="details"
-              value={product.details}
+              value={product.details || ''}
               onChange={handleInputChange}
               placeholder="Nhập chi tiết sản phẩm"
               rows={6}

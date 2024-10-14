@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import apiCategory from "../../api/apiCategory";
 import PaginationProduct from './Pagination/PaginationProduct';
+import Successfully from './Notification/Successfully';
+import Warning from './Notification/Warning';
+import YesNoProduct from './Notification/YesNoProduct';
+import Error from './Notification/Error';
 
 interface Category {
   id?: number;
@@ -49,6 +53,27 @@ const CategoryList: React.FC = () => {
 
     fetchCategories();
   }, []);
+  const handleDeleteCategory = async (id: number) => {
+    try {
+      await apiCategory.deleteCategoryById(id);
+      // After successful deletion, update the categories list
+      setCategories(categories.filter(category => category.id !== id));
+      setTotalItems(prevTotal => prevTotal - 1);
+      // toast.success('Category deleted successfully');
+    } catch (error) {
+      console.error('Error deleting category:', error);
+      // toast.error('Failed to delete category');
+    }
+  };
+
+  const handleDeleteSelected = async () => {
+    const selectedCategories = categories.filter(c => c.selected);
+    for (const category of selectedCategories) {
+      if (category.id) {
+        await handleDeleteCategory(category.id);
+      }
+    }
+  };
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
@@ -67,7 +92,10 @@ const CategoryList: React.FC = () => {
     <div className="font-[sans-serif] overflow-x-auto">
       <div className="p-4 mb-3 rounded flex justify-between items-center h-[60px]">
         <div style={{ visibility: categories.some(c => c.selected) ? 'visible' : 'hidden' }}>
-          <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded flex items-center">
+          <button 
+            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded flex items-center"
+            onClick={handleDeleteSelected}
+          >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
               <path fillRule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clipRule="evenodd" />
             </svg>
@@ -171,7 +199,7 @@ const CategoryList: React.FC = () => {
                     <path d="M12,7a5,5,0,1,0,5,5A5.006,5.006,0,0,0,12,7Zm0,8a3,3,0,1,1,3-3A3,3,0,0,1,12,15Z"/>
                   </svg>
                 </button>
-                <button className="mr-4" title="Edit">
+                <button className="mr-4" title="Edit" onClick={() => window.location.href = `/editcategories/${category.id}`}>
                   <svg xmlns="http://www.w3.org/2000/svg" className="w-5 fill-blue-500 hover:fill-blue-700"
                     viewBox="0 0 348.882 348.882">
                     <path
@@ -182,7 +210,7 @@ const CategoryList: React.FC = () => {
                       data-original="#000000" />
                   </svg>
                 </button>
-                <button className="mr-4" title="Delete">
+                <button className="mr-4" title="Delete" onClick={() => handleDeleteCategory(category.id)}>
                   <svg xmlns="http://www.w3.org/2000/svg" className="w-5 fill-red-500 hover:fill-red-700" viewBox="0 0 24 24">
                     <path
                       d="M19 7a1 1 0 0 0-1 1v11.191A1.92 1.92 0 0 1 15.99 21H8.01A1.92 1.92 0 0 1 6 19.191V8a1 1 0 0 0-2 0v11.191A3.918 3.918 0 0 0 8.01 23h7.98A3.918 3.918 0 0 0 20 19.191V8a1 1 0 0 0-1-1Zm1-3h-4V2a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v2H4a1 1 0 0 0 0 2h16a1 1 0 0 0 0-2ZM10 4V3h4v1Z"
